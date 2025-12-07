@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مشاهده پیشرفت پروژه SCTICO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Vazirmatn', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4f46e5; }
+        
+        .header-gradient {
+            background-image: linear-gradient(to right, var(--tw-gradient-stops));
+            --tw-gradient-from: #4f46e5; 
+            --tw-gradient-to: #0ea5e9;   
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        }
+        
+        /* استایل لایت‌باکس (تمام صفحه نمایش عکس) */
+        #lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
+            cursor: zoom-out; /* نشان‌دهنده بسته‌شدن با کلیک */
+        }
+        #lightbox.active {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease;
+        }
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transform: translate(0, 0) scale(1);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 1rem;
+        }
+        #lightbox.dragging img {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-200">
+
+    <div class="container mx-auto px-4 py-8 md:py-12 max-w-5xl">
+        
+        <!-- 1. هدر (کاملا مشابه پروپوزال) -->
+        <header class="flex justify-between items-center mb-10 header-gradient p-8 rounded-3xl shadow-2xl shadow-indigo-500/30">
+            <!-- نماد سند رسمی (File/Document Icon) -->
+            <svg class="h-20 w-20 md:h-24 md:w-24 text-white p-4 bg-indigo-500 rounded-full shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            
+            <div class="text-center">
+                <!-- عنوان شرکت تهیه‌کننده -->
+                <p class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-1">گروه توسعه نرم‌افزار شرکت فناوران هوشمند الماس پارس</p>
+                <!-- عنوان پروژه جدید -->
+                <h1 class="text-base sm:text-lg text-indigo-100 font-medium">پروپوزال ری‌دیزاین وب‌سایت شرکت SCTICO</h1>
+                
+            </div>
+
+            <!-- لوگوی شرکت (همان Placeholder سمت راست) -->
+            <img src="asset/logo.png" 
+                 alt="لوگوی شرکت" 
+                 class="h-20 w-20 md:h-24 md:w-24 p-2 bg-white rounded-full object-contain shadow-lg shadow-black/50"
+                 onerror="this.onerror=null; this.src='https://placehold.co/96x96/f87171/ffffff?text=Logo+Error';">
+        </header>
+
+        <!-- 2. عنوان اصلی صفحه پیشرفت -->
+        <section class="mb-8 p-8 bg-slate-800 rounded-2xl shadow-xl border border-slate-700 border-r-4 border-r-sky-500">
+            <h1 class="text-2xl sm:text-3xl font-bold text-sky-400 text-center">
+                📊 مشاهده پیشرفت طراحی و توسعه پروژه
+            </h1>
+            <p class="text-sm text-slate-400 text-center mt-2">آخرین نمونه‌های طراحی رابط کاربری (UI) و تجربه کاربری (UX)</p>
+        </section>
+
+        <!-- 3. گالری تصاویر پیشرفت پروژه -->
+        <section class="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- تصویر ۱: صفحه اصلی (Home Page) -->
+            <div class="bg-slate-800 p-4 rounded-2xl shadow-lg border border-slate-700 hover:border-indigo-500 transition-all">
+                <img 
+                    src="asset/image/home.jpg" 
+                    alt="طراحی صفحه اصلی" 
+                    class="w-full h-auto rounded-xl shadow-xl cursor-zoom-in transition-transform duration-300 hover:scale-[1.01]"
+                    onclick="openLightbox(this.src)">
+                <div class="mt-4 p-3 bg-slate-700 rounded-lg">
+                    <h4 class="text-lg font-bold text-indigo-400 mb-1">طراحی صفحه اصلی (Home Page)</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">طراحی مدرن و کاملاً واکنش‌گرا با تمرکز بر انتقال سریع هویت برند و معرفی خدمات کلیدی شرکت.</p>
+                </div>
+            </div>
+
+            <!-- تصویر ۲: صفحه خدمات (Services Page) -->
+            <div class="bg-slate-800 p-4 rounded-2xl shadow-lg border border-slate-700 hover:border-indigo-500 transition-all">
+                <img 
+                    src="asset/image/services.jpg" 
+                    alt="طراحی صفحه خدمات" 
+                    class="w-full h-auto rounded-xl shadow-xl cursor-zoom-in transition-transform duration-300 hover:scale-[1.01]"
+                    onclick="openLightbox(this.src)">
+                <div class="mt-4 p-3 bg-slate-700 rounded-lg">
+                    <h4 class="text-lg font-bold text-indigo-400 mb-1">صفحه جزئیات خدمات</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">ساختاردهی اطلاعات فنی و توضیحات مربوط به هر سرویس در یک قالب تمیز و قابل اسکن.</p>
+                </div>
+            </div>
+            
+            <!-- تصویر ۳: صفحه محصولات (Products Page) -->
+            <div class="bg-slate-800 p-4 rounded-2xl shadow-lg border border-slate-700 hover:border-indigo-500 transition-all">
+                <img 
+                    src="asset/image/product.jpg" 
+                    alt="طراحی صفحه محصولات" 
+                    class="w-full h-auto rounded-xl shadow-xl cursor-zoom-in transition-transform duration-300 hover:scale-[1.01]"
+                    onclick="openLightbox(this.src)">
+                <div class="mt-4 p-3 bg-slate-700 rounded-lg">
+                    <h4 class="text-lg font-bold text-indigo-400 mb-1">صفحه معرفی محصولات و خدمات</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">نمایش محصولات اصلی شرکت به صورت دسته‌بندی شده، با جزئیات فنی و قابلیت فیلترگذاری پیشرفته.</p>
+                </div>
+            </div>
+
+            <!-- تصویر ۴: صفحه تماس با ما (Contact Page) -->
+            <div class="bg-slate-800 p-4 rounded-2xl shadow-lg border border-slate-700 hover:border-indigo-500 transition-all">
+                <img 
+                    src="asset/image/map2.jpg" 
+                    alt="طراحی صفحه تماس" 
+                    class="w-full h-auto rounded-xl shadow-xl cursor-zoom-in transition-transform duration-300 hover:scale-[1.01]"
+                    onclick="openLightbox(this.src)">
+                <div class="mt-4 p-3 bg-slate-700 rounded-lg">
+                    <h4 class="text-lg font-bold text-indigo-400 mb-1">صفحه تماس با ما</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">فرم‌های بهینه‌سازی شده با فیلدهای اعتبارسنجی قوی و نمایش موقعیت جغرافیایی روی نقشه.</p>
+                </div>
+            </div>
+
+            <!-- تصویر ۵: صفحه درباره ما (About Us Page) -->
+            <div class="bg-slate-800 p-4 rounded-2xl shadow-lg border border-slate-700 hover:border-indigo-500 transition-all">
+                <img 
+                    src="asset/image/footer.jpg" 
+                    alt="طراحی قسمت فوتر" 
+                    class="w-full h-auto rounded-xl shadow-xl cursor-zoom-in transition-transform duration-300 hover:scale-[1.01]"
+                    onclick="openLightbox(this.src)">
+                <div class="mt-4 p-3 bg-slate-700 rounded-lg">
+                    <h4 class="text-lg font-bold text-indigo-400 mb-1">قسمت فوتر</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">طراحی قسمت فوتر به صورت حرفه ای و کاملا واکنشگرا شامل فیلد بندی راه های ارتباطی و محصولات و لوگو برند .</p>
+                </div>
+            </div>
+            
+            <!-- تصویر ۶: معرفی افراد مجموعه (Team Members Page) -->
+            <div class="bg-slate-800 p-4 rounded-2xl shadow-lg border border-slate-700 hover:border-indigo-500 transition-all">
+                <img 
+                    src="asset/image/us.jpg" 
+                    alt="طراحی صفحه تیم" 
+                    class="w-full h-auto rounded-xl shadow-xl cursor-zoom-in transition-transform duration-300 hover:scale-[1.01]"
+                    onclick="openLightbox(this.src)">
+                <div class="mt-4 p-3 bg-slate-700 rounded-lg">
+                    <h4 class="text-lg font-bold text-indigo-400 mb-1">صفحه معرفی افراد مجموعه (تیم)</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">نمایش رزومه و تخصص‌های کلیدی اعضای تیم توسعه و مدیریت شرکت، با امکان فیلتر بر اساس تخصص.</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 4. باکس شیشه‌ای گزارش رسمی پیشرفت -->
+        <section class="mb-12 p-6 md:p-10 rounded-3xl backdrop-filter backdrop-blur-lg bg-indigo-800/20 border border-indigo-500/30 shadow-2xl shadow-indigo-500/20 transition-all duration-300">
+            <h2 class="text-2xl font-extrabold text-sky-300 mb-4 border-b border-indigo-500/50 pb-2">
+                ✍️ گزارش پیشرفت پروژه (سه هفته نخست)
+            </h2>
+            <p class="text-base text-slate-300 leading-loose">
+                در طول سه هفته‌ی کاری گذشته، تمرکز تیم بر اتمام فاز طراحی رابط کاربری (UI) و تجربه کاربری (UX) برای ماژول‌های اصلی وب‌سایت بوده است. کلیه‌ی شش بخش حیاتی پورتال شامل: **صفحه اصلی**، **صفحه جزئیات خدمات**، **صفحه معرفی محصولات و خدمات**، **صفحه تماس با ما**، **صفحه درباره ما و ماموریت** و **صفحه معرفی افراد مجموعه (تیم)**، به مرحله‌ی طراحی بصری نهایی رسیده‌اند. با تثبیت فریم‌بندی‌ها و رعایت اصول واکنش‌گرایی، پروژه آماده‌ی اعمال ویرایش‌های نهایی و اتمام مراحل توسعه‌ی بخش فرانت اند (Front-End) است.
+            </p>
+        </section>
+
+        <!-- 5. لایت‌باکس (Modal) برای نمایش تمام صفحه عکس -->
+        <div id="lightbox" onclick="closeLightbox()">
+            <img id="lightbox-img" src="" alt="Full Screen Image">
+        </div>
+
+        <!-- 6. دکمه مشاهده پروپوزال -->
+        <div class="text-center mb-12">
+            <a href="index.html" class="inline-block w-full sm:w-auto py-3 px-12 text-lg font-bold text-white bg-sky-600 rounded-xl shadow-lg shadow-sky-500/50 hover:bg-sky-500 transition-all transform hover:scale-[1.02] active:scale-[0.98]">
+                مشاهده پروپوزال
+            </a>
+        </div>
+
+        <!-- 7. فوتر جدید با لوگو و نام شرکت -->
+        <footer class="text-center mt-12 p-8 md:p-12 bg-slate-800 rounded-t-3xl border-t-8 border-indigo-600 shadow-inner shadow-slate-900/50">
+            
+            <!-- بخش 1: لوگو و نام شرکت -->
+            <div class="flex flex-col items-center justify-center mb-10 pb-4 border-b border-indigo-700/50">
+                <img src="asset/logo.png" 
+                     alt="لوگوی شرکت فناوران هوشمند الماس پارس" 
+                     class="h-24 w-24 p-3 bg-white rounded-full object-contain shadow-xl shadow-indigo-500/50 mb-4"
+                     onerror="this.onerror=null; this.src='https://placehold.co/120x120/f87171/ffffff?text=Logo+Error';">
+
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-white tracking-wider">
+                    شرکت فناوران هوشمند الماس پارس
+                </h3>
+                <p class="text-sm text-indigo-300 mt-1">توسعه نرم‌افزار | هوش مصنوعی | امنیت شبکه</p>
+            </div>
+            
+            <!-- بخش 2: اطلاعات تماس -->
+            <h4 class="text-xl font-bold text-sky-400 mb-4">
+                مدیریت ارشد و اطلاعات تماس
+            </h4>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-10 text-base mt-2 text-slate-300 font-semibold">
+                
+                <!-- Contact Info 1: محمد جلیلوند (مدیر عامل) -->
+                <div class="text-center p-3 bg-slate-700/50 rounded-lg w-full sm:w-auto min-w-[200px]">
+                    <p class="text-lg text-white font-bold">محمد جلیلوند</p>
+                    <p class="text-sm text-indigo-300 mb-1">مدیر عامل</p>
+                    <a href="tel:09021385669" class="text-indigo-300 hover:text-indigo-400 transition-colors flex items-center justify-center gap-2">
+                        <!-- آیکون تلفن (SVG) -->
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" />
+                        </svg>
+                        ۰۹۰۲۱۳۸۵۶۶۹
+                    </a>
+                </div>
+
+                <!-- Contact Info 2: مرتضی غلامیان (رئیس هیئت مدیره) -->
+                <div class="text-center p-3 bg-slate-700/50 rounded-lg w-full sm:w-auto min-w-[200px]">
+                    <p class="text-lg text-white font-bold">مرتضی غلامیان</p>
+                    <p class="text-sm text-indigo-300 mb-1">رئیس هیئت مدیره</p>
+                    <a href="tel:09388867485" class="text-indigo-300 hover:text-indigo-400 transition-colors flex items-center justify-center gap-2">
+                        <!-- آیکون تلفن (SVG) -->
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" />
+                        </svg>
+                        ۰۹۳۸۸۸۶۷۴۸۵
+                    </a>
+                </div>
+            </div>
+            
+            <!-- متن کپی رایت -->
+            <p class="mt-8 text-xs text-slate-500 font-semibold">
+                &copy; ۱۴۰۴ | کلیه حقوق این طراحی و توسعه متعلق به شرکت فناوران هوشمند الماس پارس می‌باشد.
+            </p>
+        </footer>
+
+    </div>
+    
+    <!-- منطق جاوا اسکریپت برای لایت‌باکس و درگ برای بسته‌شدن -->
+    <script>
+        /**
+         * تابعی برای باز کردن لایت‌باکس با تصویر مورد نظر
+         * @param {string} src - آدرس تصویر
+         */
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden'; // جلوگیری از اسکرول پس‌زمینه
+            img.style.transform = 'translate(0, 0) scale(1)'; // ریست موقعیت
+        }
+
+        /**
+         * تابعی برای بستن لایت‌باکس
+         */
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            let isDragging = false;
+            let startY = 0;
+            let startX = 0;
+            const DRAG_THRESHOLD = 50; // آستانه ۵۰ پیکسلی برای بسته‌شدن با درگ
+
+            const handleDown = (e) => {
+                // مطمئن شوید که فقط روی خود عکس درگ شروع شود
+                if (e.target !== img) return;
+                e.preventDefault();
+                isDragging = true;
+                lightbox.classList.add('dragging');
+                
+                // تشخیص مختصات برای ماوس یا تاچ
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                startX = clientX;
+                startY = clientY;
+                
+                img.style.transition = 'none'; // حذف ترنزیشن برای درگ روان
+            };
+
+            const handleMove = (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+                const deltaY = clientY - startY;
+                const deltaX = clientX - startX;
+
+                // اعمال ترنسلیت برای حرکت دادن عکس
+                img.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1)`;
+
+                // کم کردن شفافیت پس‌زمینه با درگ عمودی
+                const opacityFactor = 1 - (Math.abs(deltaY) / window.innerHeight) * 2;
+                lightbox.style.backgroundColor = `rgba(0, 0, 0, ${0.95 * Math.max(0.2, opacityFactor)})`;
+            };
+
+            const handleUp = () => {
+                if (!isDragging) return;
+                isDragging = false;
+                lightbox.classList.remove('dragging');
+                
+                img.style.transition = 'transform 0.3s ease';
+                lightbox.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+
+                // استخراج میزان درگ عمودی از ترنسفورم
+                const currentTransform = img.style.transform;
+                const match = currentTransform.match(/translate\(([-]?\d+)px,\s*([-]?\d+)px\)/);
+                
+                let deltaY = 0;
+                if (match) {
+                    deltaY = parseInt(match[2], 10);
+                }
+
+                // اگر بیش از آستانه درگ شده باشد، لایت‌باکس بسته می‌شود
+                if (Math.abs(deltaY) > DRAG_THRESHOLD) {
+                    closeLightbox();
+                } else {
+                    // در غیر این صورت، عکس به حالت اولیه باز می‌گردد
+                    img.style.transform = 'translate(0, 0) scale(1)';
+                }
+            };
+
+            // افزودن شنونده‌های رویداد برای ماوس و تاچ
+            lightbox.addEventListener('mousedown', handleDown);
+            lightbox.addEventListener('touchstart', handleDown);
+            
+            document.addEventListener('mousemove', handleMove);
+            document.addEventListener('touchmove', handleMove);
+            
+            document.addEventListener('mouseup', handleUp);
+            document.addEventListener('touchend', handleUp);
+            
+            // بسته‌شدن با کلیک روی پس‌زمینه (نه خود عکس)
+            lightbox.addEventListener('click', (e) => {
+                if (!isDragging && e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
